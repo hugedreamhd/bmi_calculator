@@ -33,13 +33,13 @@ class ResultScreen extends StatelessWidget {
       size: 100,
     );
     if (bmi >= 23) {
-      icon = Icon(
+      icon = const Icon(
         Icons.sentiment_very_dissatisfied,
         color: Colors.green,
         size: 100,
       );
     } else if (bmi >= 18.5) {
-      icon = Icon(
+      icon = const Icon(
         Icons.sentiment_satisfied,
         color: Colors.green,
         size: 100,
@@ -62,7 +62,7 @@ class ResultScreen extends StatelessWidget {
           children: [
             Text(
               _calcBmi(bmi),
-              style: TextStyle(fontSize: 36),
+              style: const TextStyle(fontSize: 36),
             ),
             _buildIcon(bmi),
           ],

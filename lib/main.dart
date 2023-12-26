@@ -1,4 +1,4 @@
-import 'package:first_flutter/main/main_screen.dart';
+import 'package:first_flutter/result/routes.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,13 +10,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,//debug 모양 없애기
+      //확장 생성자?
+      routerConfig: router, //라우팅
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MainScreen(),
+      //home: const MainScreen(),
     );
   }
 }

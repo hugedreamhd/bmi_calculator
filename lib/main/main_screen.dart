@@ -1,6 +1,12 @@
+import 'dart:convert';
+
 import 'package:first_flutter/result/result_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+final heightController = TextEditingController();
+final weightController = TextEditingController();
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -11,8 +17,6 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _heightController = TextEditingController();
-  final _weightController = TextEditingController();
 
   @override
   void initState() {
@@ -23,15 +27,15 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void dispose() {
-    _heightController.dispose();
-    _weightController.dispose();
+    heightController.dispose();
+    weightController.dispose();
     super.dispose();
   }
 
   Future save() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble('height', double.parse(_heightController.text));
-    await prefs.setDouble('weight', double.parse(_weightController.text));
+    await prefs.setDouble('height', double.parse(heightController.text));
+    await prefs.setDouble('weight', double.parse(weightController.text));
   }
 
   Future load() async {
@@ -41,8 +45,8 @@ class _MainScreenState extends State<MainScreen> {
     final double? weight = prefs.getDouble('weight'); // 저장하기 전에 로드할 때
 
     if (height != null && weight != null) {
-      _heightController.text = '$height';
-      _weightController.text = '$weight';
+      heightController.text = '$height';
+      weightController.text = '$weight';
       print('키 : $height, 몸무게 : $weight');
     }
   }
@@ -61,7 +65,7 @@ class _MainScreenState extends State<MainScreen> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               TextFormField(
-                controller: _heightController,
+                controller: heightController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: '키',
@@ -76,7 +80,7 @@ class _MainScreenState extends State<MainScreen> {
               ), //잘못된 입력 처리
               const SizedBox(height: 8),
               TextFormField(
-                controller: _weightController,
+                controller: weightController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: '몸무게',
@@ -96,19 +100,21 @@ class _MainScreenState extends State<MainScreen> {
                     return;
                   }
 
-                  final height = _heightController.text;
+                  //final height = heightController.text;
 
                   save();
 
-                  Navigator.push(
+                  context.push('/result');//버튼을 누르면 push 된 페이지로 간다
+
+                  /*Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => ResultScreen(
-                        height: double.parse(_heightController.text),
-                        weight: double.parse(_weightController.text),
+                        height: double.parse(heightController.text),
+                        weight: double.parse(weightController.text),
                       ),
                     ),
-                  );
+                  );*/
                 },
                 child: const Text('결과'),
               ),
